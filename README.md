@@ -4,7 +4,40 @@ This is a keyboard firmware with some useful features for Atmel AVR controller.
 
 Source code is available here: <http://github.com/tmk/tmk_keyboard>
 
+#### Notes for me.
+Based on https://deskthority.net/viewtopic.php?f=7&t=7177&start=#p141386
+Only changed files in __keyboard/gh60__
 
+__Makefile:__
+TARGET = gh60_lufa
+...
+...
+MCU = atmega32u4
+...
+...
+\#NKRO_ENABLE = yes
+
+__config.h__
+\#define MATRIX_ROWS 5
+\#define MATRIX_COLS 14
+
+__matrix.c__
+Hardware mapping for each pin are here.
+
+__keymap_common.h__
+Mappings for key matrix
+
+__keymap_poker.c__
+Actual keymap. Update this.
+
+ACTION_LAYER_MOMENTARY(layer), activate layer when holding down the FN key
+ACTION_LAYER_TOGGLE(layer), activate on first press, deactivate on second press
+ACTION_LAYER_TAP_KEY(layer, key), works like ACTION_LAYER_MOMENTARY when holding but executes the specified key on tap (quick press/release phase)
+
+To compile:
+`make -f Makefile  `
+
+Load __gh60_lufa.hex__ using teensy loader. Press Lshift,Rshift,Paus to do reset, or hardware switch. Auto button in teensy to load.
 Features
 --------
 These features can be used in your keyboard.
@@ -191,7 +224,7 @@ TODO: Magic key combination to avoid unintentional press during plug in
 Mechanical Locking support
 --------------------------
 This feature makes it possible for you to use mechanical switch for `CapsLock`, `NumLock` or `ScrollLock`. To enable this feature define these macros in `config.h` and use `KC_LCAP`, `KC_LNUM` or `KC_LSCR` in keymap for locking key instead of normal `KC_CAPS`, `KC_NLCK` or `KC_SLCK`. Resync option tries to keep lock switch state consistent with keyboard LED state.
- 
+
     #define LOCKING_SUPPORT_ENABLE
     #define LOCKING_RESYNC_ENABLE
 
